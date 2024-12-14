@@ -14,8 +14,10 @@ torch.save(model.state_dict(), 'model.pth')
 ```
 
 ## Demo
-**Input**: Can use the existing test data or input by hand
+**Input**: Can use the existing test data or input by hand  
+
 ![Demo Image](./demo1.png)
-**Result**: After click predict, we have the result predict the temperature of 7th hour 
+**Result**: After click predict, we have the result predict the temperature of 7th hour  
+
 ![Demo Image](./demo2.png)
 
