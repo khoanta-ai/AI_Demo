@@ -72,6 +72,11 @@ tokenizer = get_tokenizer('basic_english')
 
 # Streamlit app
 st.title('Financial News Sentiment Analysis')
+st.markdown("## Vocabulary")
+st.markdown("**Model loaded with vocab size:**")
+st.write(len(vocab))
+st.markdown("**Available tokens:**")
+st.write([word for word in vocab if word in ['PAD', 'UNK']])
 
 st.markdown("## Input News")
 text_input = st.text_area("Enter your financial news text here:", height=200)
@@ -98,15 +103,26 @@ if st.button('Analyze Sentiment'):
         normalized_text = text_normalize(text_input)
         tokens = tokenizer(normalized_text)
         
+        # Debug tokenization
+        st.markdown("## Process Infor")
+        st.markdown("**Normalized** **text:** " f"{normalized_text}")
+        st.markdown("**Tokens:** " f"{tokens}")
+        
         # Common max length, adjust as needed
         # Because if the max_length is to large, we will have a lotof padding token, then the result will allway Negative
         max_seq_len = 25 
         indices = []
+        unknown_tokens = []
         for token in tokens:
             if token in vocab:
                 indices.append(vocab[token])
             else:
                 indices.append(vocab['UNK'])
+                unknown_tokens.append(token)
+                
+        # Debug unknown tokens
+        if unknown_tokens:
+            st.markdown("**Unknown tokens:**" f"{unknown_tokens}")
                 
         # Pad or truncate sequence
         if len(indices) < max_seq_len:
@@ -114,6 +130,7 @@ if st.button('Analyze Sentiment'):
         else:
             indices = indices[:max_seq_len]
             
+        st.write(indices)
         tensor = torch.LongTensor(indices).unsqueeze(0).to(device)
         
         # Get prediction
@@ -127,7 +144,12 @@ if st.button('Analyze Sentiment'):
         sentiment_map = {0: 'Negative', 1: 'Neutral', 2: 'Positive'}
         sentiment = sentiment_map[prediction]
         
+        st.markdown("## Sentiment: " f"{sentiment}")
+        
+        # Display confidence scores
         probabilities = torch.nn.functional.softmax(output, dim=1)[0]
-        st.markdown(f"## Sentiment: **{sentiment}** with **{probabilities[prediction]:.2%}** probability")
+        st.markdown("\n ## Confidence Scores:")
+        for sent, prob in zip(sentiment_map.values(), probabilities):
+            st.markdown(f"**{sent}:** {prob:.2%}")
     else:
         st.write("Please enter some text to analyze.")
