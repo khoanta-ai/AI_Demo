@@ -26,8 +26,6 @@ hidden_size = 8
 n_layers = 3
 dropout_prob = 0.2
 # device = 'cuda' if torch.cuda.is_available() else 'cpu'
-#The Device must be match with the type of device you train model!
-#For example: if you use cuda to train model and save as model.pth, then you must use cuda device.
 device = 'cpu'
 
 model = WeatherForecastor(
@@ -41,17 +39,30 @@ model.eval()
 
 # Streamlit app
 st.title('Hourly Temperature Forecasting')
-example = [24.86,22.75,20.07,17.81,17.16,15.01]
-target = 14.47
-st.write("Example:", ", ".join(map(str, example)), "Target:", target)
+test_data = pd.read_csv('test_data.csv')
 
+# User input for index
+index = st.number_input("Enter the index of the data to display:", min_value=0, max_value=len(test_data)-1, value=0)
+
+# Display test data at the specified index
+st.markdown("## Test Data")
+st.write(test_data.iloc[index])
 
 # User input for temperature data
-temp_data = st.text_input("Enter 6 temperatures separated by commas:", "0.0, 0.0, 0.0, 0.0, 0.0, 0.0")
-temp_data = [float(temp) for temp in temp_data.split(",")]
+if 'temp_data' not in st.session_state:
+    st.session_state.temp_data = [0.0] * 6  # Initialize with default values
+
+if st.button('Apply'):
+    for i in range(6):
+        temp = st.number_input(f"Temperature at Hour {i+1}:", min_value=-100.0, max_value=100.0, value=test_data.iloc[index]['Temp at Hour ' + str(i+1)], key=f"temp_input_{i}")
+        st.session_state.temp_data[i] = temp  # Store input in session state
+else:
+    for i in range(6):
+        temp = st.number_input(f"Temperature at Hour {i+1}:", min_value=-100.0, max_value=100.0, value=st.session_state.temp_data[i], key=f"temp_input_{i}")
+        st.session_state.temp_data[i] = temp  # Store input in session state
 
 # Convert user input to tensor with the required shape
-temp_tensor = torch.FloatTensor(temp_data).unsqueeze(0).unsqueeze(-1)  # Add batch and feature dimensions
+temp_tensor = torch.FloatTensor(st.session_state.temp_data).unsqueeze(0).unsqueeze(-1)  # Add batch and feature dimensions
 
 # Predict button
 if st.button('Predict'):
