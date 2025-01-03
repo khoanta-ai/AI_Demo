@@ -134,7 +134,7 @@ IP_unet_model = II_Unet()# load model
 IP_unet_model.load_state_dict(torch.load('IP_unet_model_phase2.pt'))
 IP_unet_model.eval()
 
-st.title('Pytorch Restore Image')
+st.title('Pytorch Image Inpainting')
 
 img = st.sidebar.selectbox(
     'Select Image',
@@ -152,7 +152,7 @@ st.image(image, width=200) # image: numpy array
 clicked = st.button('Inferece')
 
 if clicked:
-    st.write('### Imputed image:')
+    st.write('### Image Inpainting:')
     img = proces_img(input_image)
     sr_image = IP_unet_model(img)
     sr_image = sr_image.squeeze(0).detach().numpy()

@@ -29,6 +29,6 @@ NOTE: We cannot upload model > 100MB. Therefore, you should download models and 
 
 - Super_Resolution: https://drive.google.com/file/d/18fuca-VxlTDmeJzNWntQL1Mo0DUKXhOi/view?usp=drive_link
 
-- Restore_Image: https://drive.google.com/file/d/16Gikl5rmuHvWln0ez5mmMG6YPj2CNe6g/view?usp=drive_link
+- Image_Inpainting: https://drive.google.com/file/d/16Gikl5rmuHvWln0ez5mmMG6YPj2CNe6g/view?usp=drive_link
 
 
