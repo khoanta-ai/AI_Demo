@@ -1,5 +1,5 @@
 # AI VIET NAM – COURSE 2024
-# Demo Recurrent Neural Networks - Exercise
+# Exercise
 ## Set up environment
 To set up the environment for this project, you can use either conda or venv. Here are the steps for both options:
 
@@ -20,8 +20,15 @@ To set up the environment for this project, you can use either conda or venv. He
 
 ## Run project
 To run the project, navigate to each project directory and execute:
+
 ```
 streamlit run app.py
 ```
+
+NOTE: We cannot upload model > 100MB. Therefore, you should download models and run them in your local machine
+
+- Super_Resolution: https://drive.google.com/file/d/18fuca-VxlTDmeJzNWntQL1Mo0DUKXhOi/view?usp=drive_link
+
+- Restore_Image: https://drive.google.com/file/d/16Gikl5rmuHvWln0ez5mmMG6YPj2CNe6g/view?usp=drive_link
 
 
