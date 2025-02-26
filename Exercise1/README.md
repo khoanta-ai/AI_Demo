@@ -1,6 +1,6 @@
 
 ## Demo
-**Link live:** We cannot upload model > 100MB. Therefore you should run it on your local machine. https://drive.google.com/file/d/18fuca-VxlTDmeJzNWntQL1Mo0DUKXhOi/view?usp=drive_link
+**Link live:** https://aidemo-cdmykb4hh9u4bmgnbh9sg9.streamlit.app/
 
 **Input**: Choose one image on the left sidebar
 
