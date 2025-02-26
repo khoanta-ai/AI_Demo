@@ -126,48 +126,48 @@ if st.button("Run Style Transfer"):
     if not style_image_file or not content_image_file:
         st.error("Please upload style and content images.")
     else:
-                style_img = image_loader(style_image_file)
-                content_img = image_loader(content_image_file)
+        style_img = image_loader(style_image_file)
+        content_img = image_loader(content_image_file)
 
-                content_features = get_features(VGG19_pretrained, content_img)
-                style_features1 = get_features(VGG19_pretrained, style_img)
-                final_rot_style_features = rot_style_features(style_features1, style_layers)
+        content_features = get_features(VGG19_pretrained, content_img)
+        style_features1 = get_features(VGG19_pretrained, style_img)
+        final_rot_style_features = rot_style_features(style_features1, style_layers)
 
-                target_img1 = content_img.clone().requires_grad_(True).to(device)
-                target_img2 = content_img.clone().requires_grad_(True).to(device)
-                optimizer1 = optim.Adam([target_img1], lr=0.02)
-                optimizer2 = optim.Adam([target_img2], lr=0.02)
+        target_img1 = content_img.clone().requires_grad_(True).to(device)
+        target_img2 = content_img.clone().requires_grad_(True).to(device)
+        optimizer1 = optim.Adam([target_img1], lr=0.02)
+        optimizer2 = optim.Adam([target_img2], lr=0.02)
 
-                for step in range(steps):
-                    total_loss1, content_loss1, style_loss1 = style_tranfer_(VGG19_pretrained, optimizer1, target_img1,
-                                                                            content_features, style_features1,
-                                                                            style_layers, content_weight, style_weight)
+        for step in range(steps):
+            total_loss1, content_loss1, style_loss1 = style_tranfer_(VGG19_pretrained, optimizer1, target_img1,
+                                                                    content_features, style_features1,
+                                                                    style_layers, content_weight, style_weight)
 
-                    total_loss2, content_loss2, style_loss2 = style_tranfer_(VGG19_pretrained, optimizer2, target_img2,
-                                                                            content_features, final_rot_style_features,
-                                                                            style_layers, content_weight, style_weight)
+            total_loss2, content_loss2, style_loss2 = style_tranfer_(VGG19_pretrained, optimizer2, target_img2,
+                                                                    content_features, final_rot_style_features,
+                                                                    style_layers, content_weight, style_weight)
 
-                    if step % 100 == 99:
-                        st.write(f"Epoch [{step+1}/{steps}] - Style 1 - Total loss: {total_loss1.item():.6f} - Content loss: {content_loss1.item():.6f} - Style loss: {style_loss1.item():.6f}")
-                        st.write(f"Epoch [{step+1}/{steps}] - Style 2 - Total loss: {total_loss2.item():.6f} - Content loss: {content_loss2.item():.6f} - Style loss: {style_loss2.item():.6f}")
+            if step % 100 == 99:
+                st.write(f"Epoch [{step+1}/{steps}] - Style 1 - Total loss: {total_loss1.item():.6f} - Content loss: {content_loss1.item():.6f} - Style loss: {style_loss1.item():.6f}")
+                st.write(f"Epoch [{step+1}/{steps}] - Style 2 - Total loss: {total_loss2.item():.6f} - Content loss: {content_loss2.item():.6f} - Style loss: {style_loss2.item():.6f}")
 
-                with torch.no_grad():
-                    target_img1.clamp_(0, 1)
-                    target_img2.clamp_(0, 1)
+        with torch.no_grad():
+            target_img1.clamp_(0, 1)
+            target_img2.clamp_(0, 1)
 
-                output_image1 = target_img1.cpu().clone()
-                output_image1 = output_image1.squeeze(0)
-                output_image1 = transforms.ToPILImage()(output_image1)
+        output_image1 = target_img1.cpu().clone()
+        output_image1 = output_image1.squeeze(0)
+        output_image1 = transforms.ToPILImage()(output_image1)
 
-                output_image2 = target_img2.cpu().clone()
-                output_image2 = output_image2.squeeze(0)
-                output_image2 = transforms.ToPILImage()(output_image2)
+        output_image2 = target_img2.cpu().clone()
+        output_image2 = output_image2.squeeze(0)
+        output_image2 = transforms.ToPILImage()(output_image2)
 
 
-                st.header("Output Images")
-                output_cols = st.columns(2)
-                output_cols[0].image(output_image1, caption="Output Image 1 (Original Style)", use_column_width=True)
-                output_cols[1].image(output_image2, caption="Output Image 2 (Rotated Style)", use_column_width=True)
-                st.success("Style transfer complete!")
+        st.header("Output Images")
+        output_cols = st.columns(2)
+        output_cols[0].image(output_image1, caption="Output Image 1 (Original Style)", use_column_width=True)
+        output_cols[1].image(output_image2, caption="Output Image 2 (Rotated Style)", use_column_width=True)
+        st.success("Style transfer complete!")
 
 
