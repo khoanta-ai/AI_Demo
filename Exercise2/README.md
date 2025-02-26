@@ -1,9 +1,15 @@
 
 ## Demo
-**Link live:** We cannot upload model > 100MB. Therefore you should run it on your local machine. https://drive.google.com/file/d/18fuca-VxlTDmeJzNWntQL1Mo0DUKXhOi/view?usp=drive_link
+**Link live:** https://aidemo-ojebvw2ckz8dxsjcs9l6mr2.streamlit.app/
 
-**Input**: Choose one image on the left sidebar
+**Input Style Image**: Upload style image on the left sidebar
 
-**Result**: After click inference, we have the result and the target image 
+**Input Content Image**: Upload content image on the left sidebar
 
-![Demo Image](./demo.png)
+**Input Number of Steps**: Set the number of steps to implement style transfer
+
+**Result**: After click run style transfer, we have the result
+
+NOTE: A pre-trained model will be downloaded on the first run, which may take a while.
+
+![Demo Image](./demo2.bmp)

@@ -126,39 +126,34 @@ if st.button("Run Style Transfer"):
     if not style_image_file or not content_image_file:
         st.error("Please upload style and content images.")
     else:
-        with st.spinner("Stylizing image..."):
-            try:
-                style_img = image_loader(style_image_file)
-                content_img = image_loader(content_image_file)
+        style_img = image_loader(style_image_file)
+        content_img = image_loader(content_image_file)
 
-                content_features = get_features(VGG19_pretrained, content_img)
-                style_features1 = get_features(VGG19_pretrained, style_img)
-                final_rot_style_features = rot_style_features(style_features1, style_layers)
+        content_features = get_features(VGG19_pretrained, content_img)
+        style_features1 = get_features(VGG19_pretrained, style_img)
+        final_rot_style_features = rot_style_features(style_features1, style_layers)
 
-                target_img = content_img.clone().requires_grad_(True).to(device)
-                optimizer = optim.Adam([target_img], lr=0.02)
+        target_img = content_img.clone().requires_grad_(True).to(device)
+        optimizer = optim.Adam([target_img], lr=0.02)
 
-                for step in range(steps):
-                    total_loss, content_loss, style_loss = style_tranfer_(VGG19_pretrained, optimizer, target_img,
-                                                                            content_features, style_features1,
-                                                                            style_layers, content_weight, style_weight)
+        for step in range(steps):
+            total_loss, content_loss, style_loss = style_tranfer_(VGG19_pretrained, optimizer, target_img,
+                                                                    content_features, style_features1,
+                                                                    style_layers, content_weight, style_weight)
 
-        
-                    if step % 100 == 99:
-                        st.write(f"Epoch [{step+1}/{steps}] - Style - Total loss: {total_loss.item():.6f} - Content loss: {content_loss.item():.6f} - Style loss: {style_loss.item():.6f}")
 
-                with torch.no_grad():
-                    target_img.clamp_(0, 1)
+            if step % 100 == 99:
+                st.write(f"Epoch [{step+1}/{steps}] - Style - Total loss: {total_loss.item():.6f} - Content loss: {content_loss.item():.6f} - Style loss: {style_loss.item():.6f}")
 
-                output_image = target_img.cpu().clone()
-                output_image = output_image.squeeze(0)
-                output_image = transforms.ToPILImage()(output_image)
+        with torch.no_grad():
+            target_img.clamp_(0, 1)
 
-                st.header("Output Image")
-                st.image(output_image, caption="Stylized Image", use_column_width=True)
-                st.success("Style transfer complete!")
+        output_image = target_img.cpu().clone()
+        output_image = output_image.squeeze(0)
+        output_image = transforms.ToPILImage()(output_image)
 
-            except Exception as e:
-                st.error(f"Error during style transfer: {e}")
+        st.header("Output Image")
+        st.image(output_image, caption="Stylized Image", use_column_width=True)
+        st.success("Style transfer complete!")
 
 
