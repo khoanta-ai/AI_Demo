@@ -1,6 +1,6 @@
 
 ## Demo
-**Link live:** https://aidemo-ojebvw2ckz8dxsjcs9l6mr2.streamlit.app/
+**Link live:** https://aidemo-dznhwbwixjb9dwlemjrgvr.streamlit.app/
 
 **Input Style Image**: Upload style image on the left sidebar
 
