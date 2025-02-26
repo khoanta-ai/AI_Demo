@@ -12,4 +12,4 @@
 
 NOTE: A pre-trained model will be downloaded on the first run, which may take a while.
 
-![Demo Image](./demo2.bmp)
+![Demo Image](./demo2.png)
