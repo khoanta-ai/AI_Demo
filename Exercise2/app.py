@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import streamlit as st
-import matplotlib.pyplot as plt
 from PIL import Image
 import torchvision.transforms as transforms
 import torch
@@ -11,9 +10,7 @@ import torch.optim as optim
 # Set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# --- Functions from the Colab Notebook ---
 
-# Image transformations
 imsize = 256
 img_transforms = transforms.Compose([
     transforms.Resize((imsize, imsize)),
